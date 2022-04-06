@@ -1,0 +1,48 @@
+.monitor {
+  ul.note-status {
+    list-style: none;
+    padding: 0;
+
+    display: flex;
+    flex-direction: row;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      font-size: 2rem;
+      width: 24%;
+      padding: 2%;
+      box-sizing: border-box;
+      margin-right: 1%;
+      background-color: rgb(226, 241, 221);
+      line-height: 0.8;
+      span {
+        font-size: 1.6em;
+      }
+
+      &.active {
+        background-color: rgb(109, 199, 169);
+      }
+    }
+  }
+  ul.key-status {
+    list-style: none;
+    padding: 0;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    li {
+      width: 25%;
+      padding: 0.8rem;
+      box-sizing: border-box;
+      background-color: rgb(203, 238, 226);
+      margin-bottom: 0.1rem;
+
+      &.pressed {
+        background-color: rgb(109, 199, 169);
+      }
+    }
+  }
+}

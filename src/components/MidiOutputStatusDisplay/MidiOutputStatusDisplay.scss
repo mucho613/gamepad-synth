@@ -1,0 +1,37 @@
+.keyboard {
+  font-size: 16px;
+
+  ol {
+    list-style: none;
+    padding: 0;
+
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+    position: relative;
+
+    li {
+      background: rgb(235, 235, 235);
+      display: block;
+      width: 2em;
+      height: 7em;
+      border: 1px solid rgb(180, 180, 180);
+
+      &.c-sharp,
+      &.d-sharp,
+      &.f-sharp,
+      &.g-sharp,
+      &.a-sharp {
+        position: absolute;
+        width: 1em;
+        background: black;
+        height: 4em;
+      }
+
+      &.pressed {
+        background: rgb(88, 206, 196);
+      }
+    }
+  }
+}

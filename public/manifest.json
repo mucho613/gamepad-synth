@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Gamepad Synth",
+  "name": "Gamepad Synth",
   "icons": [
     {
       "src": "favicon.ico",
