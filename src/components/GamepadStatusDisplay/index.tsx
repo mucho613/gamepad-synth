@@ -1,14 +1,14 @@
 import React from 'react';
-import { getButtonNameByButtonIndex } from '../../logic/gamepad';
+import { getButtonNameByButtonIndex } from '../../functions/gamepad';
 import { AxisState, KeyPressedState } from '../../types/gamepad';
-import './GamePadStatusDisplay.scss';
+import './index.scss';
 
 type Props = {
   keyPressedStatus: KeyPressedState[];
   axisStatus: AxisState[];
 }
 
-function GamePadStatusDisplay(props: Props) {
+function GamepadStatusDisplay(props: Props) {
   const { keyPressedStatus, axisStatus } = props;
 
   const octaveOffset =
@@ -20,14 +20,13 @@ function GamePadStatusDisplay(props: Props) {
 
   return (
     <section className='monitor'>
-      <h2>Button Status</h2>
       <ul className='note-status'>
         <li className={octaveOffset ? 'active' : ''}>
-          OCTAVE
+          Octave Shift
           <span>{octaveOffset}</span>
         </li>
         <li className={semitoneOffset ? 'active' : ''}>
-          SEMITONE
+          Semitone Shift
           <span>{semitoneOffset}</span>
         </li>
       </ul>
@@ -44,4 +43,4 @@ function GamePadStatusDisplay(props: Props) {
   );
 }
 
-export default GamePadStatusDisplay;
+export default GamepadStatusDisplay;

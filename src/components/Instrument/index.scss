@@ -1,0 +1,12 @@
+.log {
+  height: 200px;
+  overflow: scroll;
+
+  span {
+    display: inline-block;
+    padding: 0.4em;
+    background-color:rgb(37, 37, 37);
+    color: white;
+    border-radius: 4px;
+  }
+}

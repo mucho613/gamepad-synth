@@ -1,5 +1,7 @@
 .keyboard {
   font-size: 16px;
+  overflow-x: scroll;
+  height: 10em;
 
   ol {
     list-style: none;
@@ -12,25 +14,26 @@
     position: relative;
 
     li {
-      background: rgb(235, 235, 235);
+      background: rgb(250, 250, 250);
       display: block;
-      width: 2em;
+
       height: 7em;
       border: 1px solid rgb(180, 180, 180);
+      position: absolute;
+      z-index: 0;
 
-      &.c-sharp,
-      &.d-sharp,
-      &.f-sharp,
-      &.g-sharp,
-      &.a-sharp {
-        position: absolute;
-        width: 1em;
+      &.black {
         background: black;
         height: 4em;
+        z-index: 1;
+      }
+
+      &.target {
+        background: rgb(189, 221, 209);
       }
 
       &.pressed {
-        background: rgb(88, 206, 196);
+        background: rgb(88, 206, 151);
       }
     }
   }
