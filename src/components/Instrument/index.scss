@@ -10,3 +10,16 @@
     border-radius: 4px;
   }
 }
+
+dl {
+  padding: 2em;
+  border: 1px solid gray;
+  dt{
+    font-size: 1em;
+  }
+
+  dd {
+    font-size: 2em;
+    margin: 0 0 1em;
+  }
+}

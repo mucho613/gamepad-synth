@@ -9,12 +9,10 @@
     li {
       display: flex;
       flex-direction: column;
-      font-size: 2rem;
       width: 24%;
       padding: 2%;
       box-sizing: border-box;
       margin-right: 1%;
-      background-color: rgb(226, 241, 221);
       line-height: 0.8;
       span {
         font-size: 1.6em;
@@ -34,11 +32,17 @@
     flex-wrap: wrap;
 
     li {
-      width: 25%;
+      width: 4rem;
+      height: 4rem;
       padding: 0.8rem;
       box-sizing: border-box;
-      background-color: rgb(203, 238, 226);
-      margin-bottom: 0.1rem;
+      margin: 1rem;
+      border: 1px solid gray;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
 
       &.pressed {
         background-color: rgb(109, 199, 169);

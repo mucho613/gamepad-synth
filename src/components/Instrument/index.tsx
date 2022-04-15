@@ -1,7 +1,7 @@
 import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import * as Tone from 'tone'
 import { Output } from 'webmidi';
-import { getBaseNoteNumberByButtonIndex } from '../../functions/gamepad';
+import { getBaseNoteNumberByButtonIndex as buttonNumberToBaseNoteNumber } from '../../functions/gamepad';
 import { AxisState, KeyPressedState } from '../../types/gamepad';
 import MidiOutputStatusDisplay from '../MidiOutputStatusDisplay';
 import { useGamepad } from '../useGamepad';
@@ -9,8 +9,9 @@ import { useMidi } from '../useMidi';
 import { GamepadEvent } from '../../types/gamepad';
 import GamepadStatusDisplay from '../GamepadStatusDisplay';
 import './index.scss';
+import { bitmapToSysExBytes, stringToSysExBytes } from '../../functions/midi';
 
-export type KeyState = { noteNumber: number, button: number }[];
+export type KeyState = { targetChannel: number, noteNumber: number, button: number }[];
 
 function Instrument() {
   const [synth, setSynth] = useState<Tone.Synth>();
@@ -20,6 +21,7 @@ function Instrument() {
   const [axisStatus, setAxisStatus] = useState<AxisState[]>([]);
 
   const noteNumberBase = 60;
+  const targetChannel = 1;
 
   const keyStateRef = useRef<KeyState>([]);
   const [keyState, setKeyState] = useState<KeyState>([]);
@@ -39,18 +41,14 @@ function Instrument() {
 
   const noteOn = useCallback((noteNumber: number) => {
     // synth?.triggerAttack((523 / 2) * Math.pow(2, (noteNumber-60) / 12));
-    primaryMidiOutput?.sendNoteOn(noteNumber, {
-      channels: 1,
+    primaryMidiOutput?.channels[targetChannel].sendNoteOn(noteNumber, {
       rawAttack: 100
     })
-
   }, [primaryMidiOutput]);
 
   const noteOff = useCallback((noteNumber: number) => {
     // synth?.triggerRelease();
-    primaryMidiOutput?.sendNoteOff(noteNumber, {
-      channels: 1
-    })
+    primaryMidiOutput?.channels[targetChannel].sendNoteOff(noteNumber);
   }, [primaryMidiOutput]);
 
   const handleInput = useCallback((event: GamepadEvent) => {
@@ -61,7 +59,7 @@ function Instrument() {
           pressed: value.pressed
         })));
 
-      const noteName = getBaseNoteNumberByButtonIndex(event.target.index);
+      const noteName = buttonNumberToBaseNoteNumber(event.target.index);
 
       const noteOffset =
         (event.gamepad.buttons[4].pressed ? 12 : 0) + // Octave Up
@@ -78,6 +76,7 @@ function Instrument() {
       noteOn(noteNumber);
 
       keyStateRef.current.push({
+        targetChannel,
         noteNumber,
         button: event.target.index
       })
@@ -85,6 +84,7 @@ function Instrument() {
       setKeyState(keyState => [
         ...keyState,
         {
+          targetChannel,
           noteNumber,
           button: event.target.index
         }
@@ -98,7 +98,7 @@ function Instrument() {
           pressed: value.pressed
         })));
 
-      const noteName = getBaseNoteNumberByButtonIndex(event.target.index);
+      const noteName = buttonNumberToBaseNoteNumber(event.target.index);
 
       const noteOffset =
         (event.gamepad.buttons[4].pressed ? 12 : 0) + // Octave Up
@@ -120,13 +120,14 @@ function Instrument() {
     }
 
     if(event.type === 'axis') {
+      // TODO: コントロールチェンジの送信インターバルを実装する
       if(event.target.index === 0 || event.target.index === 2) {
         primaryMidiOutput?.sendPitchBend(event.target.value);
         setAxisStatus([{ value: event.target.value }]);
       } else {
         if (event.target.value <= 0) { // 下
-          const value = event.target.value * -1;
-          primaryMidiOutput?.sendControlChange(1, Math.floor(value * 127)); // Modulation
+          // const value = event.target.value * -1;
+          // primaryMidiOutput?.sendControlChange(1, Math.floor(value * 127)); // Modulation
         } else {
           // const value = 1 - event.target.value;
           // primaryMidiOutput?.sendControlChange(11, Math.floor(value * 127)); // Expression
@@ -155,14 +156,17 @@ function Instrument() {
           <option key={midiOutput.id} value={midiOutput.id}>{midiOutput.name}</option>
         )}
       </select>
-      <h3>Device Name</h3>
-      <p>{primaryMidiOutput?.name}</p>
-      <p>{primaryMidiOutput?.manufacturer}</p>
-      <p>{primaryMidiOutput?.state.toUpperCase()}</p>
+
+      <dl>
+        <dt>Device Name</dt>
+        <dd>{primaryMidiOutput?.name ?? 'Unknown'}</dd>
+        <dt>Device Manufacturer</dt>
+        <dd>{primaryMidiOutput?.manufacturer ?? 'Unknown'}</dd>
+        <dt>State</dt>
+        <dd>{primaryMidiOutput?.state ?? 'Unknown'}</dd>
+      </dl>
 
       <MidiOutputStatusDisplay keyState={keyState} target={target}/>
-
-      {JSON.stringify(axisStatus)}
     </div>
   );
 }

@@ -36,7 +36,6 @@ function GamepadStatusDisplay(props: Props) {
             const buttonName = getButtonNameByButtonIndex(keyState.button);
             return <li key={keyState.button} className={keyState.pressed ? 'pressed' : ''}>{buttonName}</li>
           }),
-          ...axisStatus?.map(axisState => <li key={`axis`}>{axisState.value}</li>)
         ]}
       </ul>
     </section>
