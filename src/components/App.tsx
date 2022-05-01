@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="container">
       <header>
-        <h1 className='ui header'>Gamepad Synth</h1>
+        {/* <h1 className='ui header'>Gamepad Synth</h1> */}
       </header>
 
       <Instrument />

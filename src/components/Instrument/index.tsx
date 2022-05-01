@@ -19,6 +19,9 @@ function Instrument() {
   const [primaryMidiOutput, setPrimaryMidiOutput] = useState<Output>();
   const [keyPressedStatus, setKeyPressedStatus] = useState<KeyPressedState[]>([]);
   const [axisStatus, setAxisStatus] = useState<AxisState[]>([]);
+  const [gamepadDeviceName, setGamepadDeviceName] = useState<string>("");
+
+  const [pitchBend, setPitchBend] = useState<number>(0);
 
   const noteNumberBase = 60;
   const targetChannel = 1;
@@ -44,14 +47,16 @@ function Instrument() {
     primaryMidiOutput?.channels[targetChannel].sendNoteOn(noteNumber, {
       rawAttack: 100
     })
-  }, [primaryMidiOutput]);
+  }, [primaryMidiOutput?.channels]);
 
   const noteOff = useCallback((noteNumber: number) => {
     // synth?.triggerRelease();
     primaryMidiOutput?.channels[targetChannel].sendNoteOff(noteNumber);
-  }, [primaryMidiOutput]);
+  }, [primaryMidiOutput?.channels]);
 
   const handleInput = useCallback((event: GamepadEvent) => {
+    setGamepadDeviceName(event.gamepad.id);
+
     if (event.type === 'buttonpressed') {
       setKeyPressedStatus(event.gamepad.buttons
         .map((value, index) => ({
@@ -124,6 +129,7 @@ function Instrument() {
       if(event.target.index === 0 || event.target.index === 2) {
         primaryMidiOutput?.sendPitchBend(event.target.value);
         setAxisStatus([{ value: event.target.value }]);
+        setPitchBend(event.target.value);
       } else {
         if (event.target.value <= 0) { // 下
           // const value = event.target.value * -1;
@@ -146,10 +152,11 @@ function Instrument() {
 
   return (
     <div>
-      <h2>Gamepad Input Status</h2>
-      <GamepadStatusDisplay keyPressedStatus={keyPressedStatus} axisStatus={axisStatus}/>
+      <h2>Gamepad</h2>
+      <GamepadStatusDisplay deviceName={gamepadDeviceName} keyPressedStatus={keyPressedStatus} axisStatus={axisStatus}/>
 
-      <h2>MIDI Output Status</h2>
+      <h2>MIDI Output Device</h2>
+
       <label htmlFor="midi-output-select">MIDI Output</label>
       <select onChange={handleChange} id='midi-output-select'>
         {midiOutputs?.map(midiOutput =>
@@ -157,16 +164,10 @@ function Instrument() {
         )}
       </select>
 
-      <dl>
-        <dt>Device Name</dt>
-        <dd>{primaryMidiOutput?.name ?? 'Unknown'}</dd>
-        <dt>Device Manufacturer</dt>
-        <dd>{primaryMidiOutput?.manufacturer ?? 'Unknown'}</dd>
-        <dt>State</dt>
-        <dd>{primaryMidiOutput?.state ?? 'Unknown'}</dd>
-      </dl>
+      <h3>Device Name</h3>
+      <p>{primaryMidiOutput?.name ?? 'Unknown'}</p>
 
-      <MidiOutputStatusDisplay keyState={keyState} target={target}/>
+      <MidiOutputStatusDisplay keyState={keyState} pitchBend={pitchBend} target={target}/>
     </div>
   );
 }

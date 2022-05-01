@@ -1,3 +1,12 @@
+h2 {
+  // display:inline-block;
+  font-size: 4rem;
+  // background: black;
+  // color: white;
+  line-height: 1;
+  margin: 4rem 0 1rem;
+}
+
 .log {
   height: 200px;
   overflow: scroll;
@@ -12,8 +21,6 @@
 }
 
 dl {
-  padding: 2em;
-  border: 1px solid gray;
   dt{
     font-size: 1em;
   }

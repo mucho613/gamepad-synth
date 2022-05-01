@@ -1,9 +1,11 @@
 import React from 'react';
+import { Scale } from 'tone';
 import { KeyState } from '../App';
 import './index.scss';
 
 type Props = {
   keyState: KeyState;
+  pitchBend: number;
   target: number[];
 }
 
@@ -91,7 +93,7 @@ const whiteKeyWidth = 40 as const;
 const blackKeyWidth = 20 as const;
 
 function MidiOutputStatusDisplay(props: Props) {
-  const { keyState, target } = props;
+  const { keyState, pitchBend, target } = props;
 
   return (
     <>
@@ -132,11 +134,13 @@ function MidiOutputStatusDisplay(props: Props) {
                 pressed ? 'pressed' : '',
                 target.find(value => value === index) ? 'target' : ''
               ].join(' ');
-              return <li key={index} className={className} style={style}>{index}</li>
+              return <li key={index} className={className} style={style}></li>
             })
           }
         </ol>
       </section>
+      <h3>Pitch Bend</h3>
+      <div className='pitch-bend' style={{ transform: `scaleX(${Math.abs(pitchBend) > 0.01 ? pitchBend : 0})` }}>{pitchBend}</div>
     </>
   );
 }
