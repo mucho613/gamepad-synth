@@ -17,7 +17,7 @@
     "tone": "^14.7.77",
     "typescript": "^5.3.2",
     "web-vitals": "^3.5.0",
-    "webmidi": "^3.1.6"
+    "webmidi": "^3.1.7"
   },
   "scripts": {
     "start": "react-scripts start",
