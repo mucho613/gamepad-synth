@@ -16,7 +16,7 @@
     "sass": "^1.77.8",
     "tone": "^15.0.4",
     "typescript": "^5.5.3",
-    "web-vitals": "^4.2.1",
+    "web-vitals": "^4.2.2",
     "webmidi": "^3.1.9"
   },
   "scripts": {
