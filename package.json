@@ -15,7 +15,7 @@
     "react-scripts": "5.0.1",
     "sass": "^1.78.0",
     "tone": "^15.0.4",
-    "typescript": "^5.5.4",
+    "typescript": "^5.6.2",
     "web-vitals": "^4.2.3",
     "webmidi": "^3.1.11"
   },
