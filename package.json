@@ -14,7 +14,7 @@
     "react-dom": "^19.1.0",
     "react-scripts": "5.0.1",
     "sass": "^1.87.0",
-    "tone": "^15.0.4",
+    "tone": "^15.1.22",
     "typescript": "^5.8.3",
     "web-vitals": "^5.0.0",
     "webmidi": "^3.1.12"
