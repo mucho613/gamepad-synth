@@ -13,7 +13,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-scripts": "5.0.1",
-    "sass": "^1.94.1",
+    "sass": "^1.94.2",
     "tone": "^15.1.22",
     "typescript": "^5.9.3",
     "web-vitals": "^5.1.0",
